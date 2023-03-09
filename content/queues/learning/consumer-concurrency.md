@@ -41,7 +41,7 @@ In this instance, Queues will notice the growing backlog and will scale the numb
 If you have a workflow that is limited by an upstream API and/or system, you may prefer to your backlog to grow, trading off increased overall latency in order to avoid overwhelming an upstream system.
 
 * To limit the number of concurrent consumer invocations, you can set `max_concurrency` to a fixed integer. Queues will scale the number of consumers up to that number as needed, but no higher.
-* To disable concurrency entirely, you can set `concurrency_enabled: false` (opt-in). This is effectively the same as setting `max_concurrency: 1`.
+* To disable concurrency entirely, you can set `concurrency_enabled` to `false` (opt-in). This is effectively the same as setting `max_concurrency` to `1`.
 
 Note that if you are writing messages to a queue faster than you can process them, messages may eventually reach the [maximum retention period](/queues/platform/limits/) set for that queue. Individual messages that reach that limit (by default, 4 days) will expire from the queue and be deleted.
 
@@ -52,4 +52,4 @@ When multiple consumer Workers are invoked, each Worker invocation incurs [durat
 * If you intend to process all messages written to a queue, _the effective overall cost is the same_, even with concurrency enabled.
 * Enabling concurrency simply brings those costs forward, and can help prevent messages from reaching the [message retention limit](/queues/platform/limits/).
 
-A consumer Worker that takes 2-seconds ([256 GB-seconds](https://developers.cloudflare.com/workers/platform/pricing/#workers-unbound-billing-examples)) to process a batch of messages will incur the same overall costs to process 50-million (50,000,000) messages, whether it does so concurrently (faster) or individually (slower).
+A consumer Worker that takes 2-seconds ([256 GB-seconds](/workers/platform/pricing/#workers-unbound-billing-examples)) to process a batch of messages will incur the same overall costs to process 50-million (50,000,000) messages, whether it does so concurrently (faster) or individually (slower).
